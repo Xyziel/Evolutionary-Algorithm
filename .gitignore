@@ -1,0 +1,11 @@
+.idea
+venv
+
+
+oe/com/data/plots
+oe/com/data/values
+
+*.jpg
+*.txt
+
+__pycache__
