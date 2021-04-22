@@ -35,3 +35,7 @@ class Population:
         for chromosomes in another_population.get_population():
             self.add_chromosomes(chromosomes)
         return self
+
+    def delete_chromosomes_index(self, index: int):
+        self.__population.pop(index)
+        self.__size -= 1
