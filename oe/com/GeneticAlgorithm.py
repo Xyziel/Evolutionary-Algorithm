@@ -49,20 +49,23 @@ class GeneticAlgorithm:
         mean_values = []
 
         for i in range(self.__epochs):
+
             values = fun.get_values_population_dec(population_number_rep)
             std_values.append(statistics.pstdev(values))
             mean_values.append(statistics.mean(values))
             elite_population = elite.choose_n_best(population, values, maxi)
-            selected_parents = selection.select_parents(population, values, maxi)
 
-            if isinstance(selection, RouletteWheelSelection):
-                population = crossover.cross(selected_parents, 2)
-                while population.get_size() < self.__size - self.__elite_number:
+            population_copy = population
+            population = Population()
+
+            while population.get_size() < self.__size - self.__elite_number:
+                selected_parents = selection.select_parents(population_copy, values, maxi)
+                if isinstance(selection, RouletteWheelSelection):
                     population += crossover.cross(selected_parents, 2)
-                if population.get_size() > self.__size - self.__elite_number:
-                    population.delete_chromosomes_index(population.get_size() - 1)
-            else:
-                population = crossover.cross(selected_parents, self.__size - self.__elite_number)
+                    if population.get_size() > self.__size - self.__elite_number:
+                        population.delete_chromosomes_index(population.get_size() - 1)
+                else:
+                    population = crossover.cross(selected_parents, self.__size - self.__elite_number)
 
             mutation.mutate(population, self.__a, self.__b)
 

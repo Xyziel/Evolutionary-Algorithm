@@ -16,12 +16,17 @@ class HeuristicCrossover(Crossover):
                     k = random.random()
 
                 tmp_parents = parents.get_population_as_numbers().copy()
+                # print(tmp_parents)
                 parent1 = random.choice(tmp_parents)
                 # remove parent1 from the list so it cannot be chosen
                 tmp_parents.remove(parent1)
                 parent2 = random.choice(tmp_parents)
 
+                i = 0
                 while (parent1[0] > parent2[0]) or (parent1[1] > parent2[1]):
+                    i += 1
+                    if i > 20:
+                        return Population()
                     tmp_parents = parents.get_population_as_numbers().copy()
                     parent1 = random.choice(tmp_parents)
                     # remove parent1 from the list so it cannot be chosen
